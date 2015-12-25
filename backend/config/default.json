@@ -1,6 +1,7 @@
 {
     "errors": {
         "EMPTY": 0,
+        "MISSING_ARGS": 10,
         "VALIDATION": 100
     }
 }

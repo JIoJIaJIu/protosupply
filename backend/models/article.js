@@ -1,12 +1,21 @@
 var config = require('config');
 var ServerError = require('../modules/error');
 
-function Article (data) {
-    this.id = 1;
+function Article (id, data) {
+    if (!id) {
+        throw new ServerError('No needed field: id', config.errors.VALIDATION, {
+            field: 'id'
+        });
+    }
+
+    if (!data) {
+        throw new ServerError('No needed 2nd argument', config.error.MISSING_ARGS);
+    }
+
     this._createTitle(data.title);
     this._createText(data.text);
-    this.title = data.title;
-    this.text = data.text;
+    this.id = id;
+    this.datetime = new Date();
 }
 
 Article.prototype = {
@@ -46,7 +55,7 @@ ArticleManager.prototype = {
                 return;
             }
 
-            var article = new Article(row);
+            var article = new Article(id, row);
             cb(null, article);
         });
     },
@@ -58,6 +67,9 @@ ArticleManager.prototype = {
     },
 
     update: function ArticleManager_update () {
+    },
+
+    _generateId: function ArticleManager__generateId () {
     }
 }
 
