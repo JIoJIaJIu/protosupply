@@ -1,6 +1,11 @@
 {
+    "connection": {
+        "file": "article.json"
+    },
+
     "errors": {
         "EMPTY": 0,
+        "WRONG_FD": 1,
         "MISSING_ARGS": 10,
         "VALIDATION": 100
     }
