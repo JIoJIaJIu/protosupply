@@ -19,7 +19,7 @@ function Article (id, data) {
 }
 
 Article.prototype = {
-    _createTitle: function (title) {
+    _createTitle: function Article__createTitle (title) {
         if (!title) {
             throw new ServerError('No needed field: title', config.errors.VALIDATION, {
                 field: 'title'
@@ -29,7 +29,7 @@ Article.prototype = {
         this.title = title;
     },
 
-    _createText: function (text) {
+    _createText: function Article__createText (text) {
         if (!text) {
             throw new ServerError('No needed field: text', config.errors.VALIDATION, {
                 field: 'text'
