@@ -4,13 +4,14 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "NODE_ENV=test mocha test/**"
+    "test": "cp article.test.json -f _article.test.json;NODE_ENV=test mocha test/**"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "config": "^1.17.1",
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "lodash": "^3.10.1"
   },
   "devDependencies": {
     "mocha": "^2.3.4"

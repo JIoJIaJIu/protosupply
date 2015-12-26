@@ -1,6 +1,6 @@
 {
     "connection": {
-        "file": "article.test.json"
+        "file": "_article.test.json"
     },
 
     "errors": {
@@ -8,6 +8,9 @@
         "WRONG_FD": 1,
         "MISSING_ARGS": 10,
         "WRONG_ARG": 11,
-        "VALIDATION": 100
+        "VALIDATION": 100,
+        "WRONG_JSON": 101,
+        "NO_RESOURCE": 404,
+        "DB_COMMIT": 1000
     }
 }

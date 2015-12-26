@@ -1,5 +1,8 @@
 var config = require('config');
+var _ = require('lodash');
+
 var ServerError = require('../modules/error');
+var utils = require('../modules/utils');
 
 function Article (id, data) {
     if (!id) {
@@ -9,7 +12,7 @@ function Article (id, data) {
     }
 
     if (!data) {
-        throw new ServerError('No needed 2nd argument', config.error.MISSING_ARGS);
+        throw new ServerError('No needed 2nd argument', config.errors.MISSING_ARGS);
     }
 
     this._createTitle(data.title);
@@ -19,6 +22,15 @@ function Article (id, data) {
 }
 
 Article.prototype = {
+    toJSON: function Article_toJSON () {
+        return {
+            id: this.id,
+            title: this.title,
+            text: this.text,
+            datetime: this.datetime
+        };
+    },
+
     _createTitle: function Article__createTitle (title) {
         if (!title) {
             throw new ServerError('No needed field: title', config.errors.VALIDATION, {
@@ -42,34 +54,134 @@ Article.prototype = {
 
 function ArticleManager (connection) {
     this._connection = connection;
+    this._lastIndex = null;
 }
 
 ArticleManager.prototype = {
-    create: function ArticleManager_create () {
-    },
+    add: function ArticleManager_add (data, cb) {
+        var self = this;
+        // Reading all articles, initiation
+        if (!this._lastIndex) {
+            this._sync(function () {
+                self.add(data, cb);
+            });
+            return;
+        }
 
-    get: function ArticleManager_get (id, cb) {
-        this._connection.get("article", "id", id, function (err, row) {
+        var id = this._lastIndex + 1;
+        var article = new Article(id, data);
+
+        var params = {
+            type: 'article',
+            object: article
+        }
+
+        this._connection.execute('POST', params, function (err) {
             if (err) {
                 cb(err);
                 return;
             }
 
-            var article = new Article(id, row);
+            self._connection.commit();
+            cb(null);
+        });
+    },
+
+    get: function ArticleManager_get (id, cb) {
+        var params = {
+            query: {
+                id: id,
+            },
+            type: 'article'
+        }
+
+        this._connection.execute('GET', params, function (err, data) {
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            if (!data) {
+                err = new ServerError(utils.concat('No such article resource with id', id),
+                    config.errors.NO_RESOURCE, {
+                        type: 'article',
+                        id: id
+                    });
+                cb(err);
+                return;
+            }
+
+            var article = new Article(id, data);
             cb(null, article);
         });
     },
 
     list: function ArticleManager_list (cb) {
+        var self = this;
+        this._connection.execute('GET', {type: 'article'}, function (err, data) {
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            if (!data) {
+                cb(null, []);
+                return;
+            }
+
+            var articles = _.map(data, function (data) {
+                return new Article(data.id, data);
+            });
+
+            cb(null, articles);
+        });
     },
 
-    remove: function ArticleManager_remove () {
+    remove: function ArticleManager_remove (id, cb) {
+        var self = this;
+        var params = {
+            type: 'article',
+            query: {
+                id: id
+            }
+        };
+
+        this._connection.execute('DROP', params, function (err) {
+            if (err) {
+                cb(err);
+                return;
+            }
+
+            self._connection.commit();
+            self._sync(cb);
+        });
     },
 
     update: function ArticleManager_update () {
     },
 
-    _generateId: function ArticleManager__generateId () {
+    /**
+     * Sync index of articles with storage
+     */
+    _sync: function ArticleManager__sync (cb) {
+        var self = this;
+
+        this.list(function (err, articles) {
+            if (err)
+                throw err;
+
+            self._lastIndex = self._getLastIndex(articles);
+            cb();
+        });
+    },
+
+    _getLastIndex: function ArticleManager__getLastIndex (articles) {
+        var index = 1;
+        var last = _.last(_.sortBy(articles, 'id'));
+        if (last)
+            index = last.id;
+
+        return index;
     }
 }
 

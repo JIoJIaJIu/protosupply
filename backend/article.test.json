@@ -1,0 +1,13 @@
+{
+    "article": [{
+        "id": 1,
+        "title": "First article",
+        "text": "Text of the first article",
+        "datetime": 1451029023074
+    }, {
+        "id": 2,
+        "title": "Second article",
+        "text": "Text of the second article",
+        "datetime": 1451029023999
+    }]
+}
