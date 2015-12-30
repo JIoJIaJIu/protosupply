@@ -16,6 +16,28 @@
     "tests"
   ],
   "dependencies": {
-    "react": "~0.14.4"
+    "react": "~0.14.4",
+    "bootstrap": "~3.3.6",
+    "jquery": "~2.1.4"
+  },
+  "install": {
+    "path": {
+      "js": "static/third-parties",
+      "css": "static/css"
+    },
+    "sources": {
+      "jquery": [
+        "bower_components/jquery/dist/jquery.min.js"
+      ],
+      "bootstrap": [
+        "bower_components/bootstrap/dist/css/bootstrap.min.css"
+      ],
+      "react": [
+        "bower_components/react/react.js",
+        "bower_components/react/react.min.js",
+        "bower_components/react/react-dom.js",
+        "bower_components/react/react-dom.min.js"
+      ]
+    }
   }
 }

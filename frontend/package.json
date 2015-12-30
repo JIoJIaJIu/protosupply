@@ -10,6 +10,18 @@
   "license": "ISC",
   "dependencies": {
     "bower": "^1.7.1",
-    "bower-installer": "^1.2.0"
+    "bower-installer": "^1.2.0",
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {
+    "babel-preset-react": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^12.0.1",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "babel": {
+    "presets": [
+      "react"
+    ]
   }
 }
