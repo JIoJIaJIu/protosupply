@@ -1,4 +1,7 @@
 {
+    "HOSTNAME": "localhost",
+    "PORT": "20200",
+
     "connection": {
         "file": "article.json"
     },
@@ -7,6 +10,13 @@
         "EMPTY": 0,
         "WRONG_FD": 1,
         "MISSING_ARGS": 10,
-        "VALIDATION": 100
+        "WRONG_ARG": 11,
+        "MISSING_PARAM": 12,
+        "VALIDATION": 100,
+        "WRONG_JSON": 101,
+        "NO_RESOURCE": 404,
+        "UNSUPPORTED_HTTP_METHOD": 600,
+        "DB_COMMIT": 1000,
+        "UNKNOWN_CONTROLLER": 2000
     }
 }

@@ -10,5 +10,5 @@
 
     "DELETE": {
         "/articles/:id": "Article#remove"
-    },
+    }
 }
