@@ -1,0 +1,9 @@
+{
+    "GET": {
+        "/": "Article#list",
+        "/id": "Article#item"
+    },
+
+    "POST": {
+    }
+}
