@@ -1,7 +1,8 @@
 ## Deploying and launching
 
-* `npm install --save-dev`
+* `npm install --dev`
 * `node app.js`
+* `http://localhost:20200`
 
 ## Testing
 
