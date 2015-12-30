@@ -1,0 +1,21 @@
+{
+  "name": "frontend",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Guro Bokum <jiojiajiu@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/JIoJIaJIu/protosupply",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.14.4"
+  }
+}
