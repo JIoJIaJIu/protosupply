@@ -15,20 +15,49 @@ module.exports = function (settings) {
 
     function allArticlesCtrl (req, res, next) {
         manager.list(function (err, articles) {
-            //TODO:
-            if (err)
-                return ''
+            if (err) {
+                res.status(500).send();
+                return;
+            }
 
             res.json(articles);
         });
     }
 
-    function articleCtrl () {
+    function articleCtrl (req, res, next) {
+        var id = parseInt(req.params.id, 10);
+        manager.get(id, function (err, article) {
+            if (err)
+                throw err;
+
+            res.json(article);
+        });
+    }
+
+    function addArticleCtrl (req, res, next) {
+        var article = req.body;
+        manager.add(article, function (err, id) {
+            if (err)
+                throw err;
+            res.json({id: id});
+        });
+    }
+
+    function removeArticleCtrl (req, res, next) {
+        var id = parseInt(req.params.id);
+        manager.remove(id, function (err) {
+            if (err)
+                throw err;
+
+            res.send();
+        });
     }
 
     return {
+        "Article#add": addArticleCtrl,
         "Article#list": allArticlesCtrl,
-        "Article#item": articleCtrl
+        "Article#item": articleCtrl,
+        "Article#remove": removeArticleCtrl
     }
 }
 

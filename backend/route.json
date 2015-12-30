@@ -1,9 +1,14 @@
 {
     "GET": {
-        "/": "Article#list",
-        "/id": "Article#item"
+        "/articles": "Article#list",
+        "/articles/:id": "Article#item"
     },
 
     "POST": {
-    }
+        "/articles": "Article#add"
+    },
+
+    "DELETE": {
+        "/articles/:id": "Article#remove"
+    },
 }

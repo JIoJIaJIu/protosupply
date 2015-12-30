@@ -83,7 +83,8 @@ ArticleManager.prototype = {
             }
 
             self._connection.commit();
-            cb(null);
+            self._lastIndex = id;
+            cb(null, id);
         });
     },
 

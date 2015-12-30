@@ -7,6 +7,12 @@ var ArticleManager = require('../../models/article').ArticleManager;
 var Connection = require('../../modules/connection');
 
 describe('Article', function () {
+    before(function (done) {
+        exec('cp article.test.json -f _article.test.json', function () {
+            done();
+        });
+    });
+
     describe('Success', function () {
         var data = {
             title: 'Test article',

@@ -42,12 +42,13 @@ Router.prototype = {
         _.forIn(settings, function (settings, method) {
             switch (method) {
                 case 'GET':
+                case 'POST':
+                case 'DELETE':
+                    var routeFn = self._router[method.toLowerCase()]
                     _.forIn(settings, function (controllerName, route) {
                         var controller = CtrlService.get(controllerName);
-                        self._router.get(route, controller);
+                        routeFn.call(self._router, route, controller);
                     });
-                    break;
-                case 'POST':
                     break;
                 default:
                     throw new ServerError(utils.concat('Unknow HTTP method', method),
